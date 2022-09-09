@@ -13,4 +13,8 @@ print('SERVER SIDE')
 print('server: ', HOST, SERVER_ROOT)
 print('Waiting for Client')
 
-conn, addr = s.accept()
+conn, addr = s.accept()  # wait client connect
+
+# with every client side
+print('client address: ', addr)
+print('conn:', conn.getsockname())
