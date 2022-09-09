@@ -14,7 +14,13 @@ print('server: ', HOST, SERVER_ROOT)
 print('Waiting for Client')
 
 conn, addr = s.accept()  # wait client connect
+# conn nhan va trao doi duong truyen
+# addr lay dia chi client
 
 # with every client side
 print('client address: ', addr)
 print('conn:', conn.getsockname())
+
+username = conn.recv(1024).decode(FORMAT)
+
+print('username: ', username)
