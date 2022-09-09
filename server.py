@@ -20,6 +20,21 @@ conn, addr = s.accept()  # wait client connect
 # with every client side
 print('client address: ', addr)
 print('conn:', conn.getsockname())
+# []
+
+
+def recieveList(conn):
+    list = []
+    item = conn.recv(1024).decode(FORMAT)
+
+    while (item != 'end'):
+        list.append(item)
+        # response
+        conn.sendall(item.encode(FORMAT))
+        item = conn.recv(1024).decode(FORMAT)
+
+    return list
+
 
 try:
 
@@ -27,8 +42,8 @@ try:
     while msg != 'x':
         msg = conn.recv(1024).decode(FORMAT)
         print('client', addr, 'says', msg)
-        msg = input('Server response: ')
-        conn.sendall(msg.encode(FORMAT))
+        if(msg == 'list'):
+            print('list: ', recieveList(conn))
 
 except:
 
