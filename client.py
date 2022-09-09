@@ -1,4 +1,3 @@
-from http import client
 import socket
 
 HOST = '127.0.0.1'
@@ -12,7 +11,15 @@ client.connect((HOST, SERVER_PORT))
 print('client address:', client.getsockname())
 
 
-username = input("username: ")
+try:
+    msg = None
+    while msg != 'x':
+        msg = input('talk: ')
+        client.sendall(msg.encode(FORMAT))
+        msg = client.recv(1024).decode(FORMAT)
+        print('Server say: ', msg)
 
-client.sendall(username.encode(FORMAT))
-# gui du lien bind du lieu khi gui
+except:
+    print('error')
+
+client.close()
