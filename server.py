@@ -21,6 +21,15 @@ conn, addr = s.accept()  # wait client connect
 print('client address: ', addr)
 print('conn:', conn.getsockname())
 
-username = conn.recv(1024).decode(FORMAT)
+try:
 
-print('username: ', username)
+    msg = 'none'
+    while msg != 'x':
+        msg = conn.recv(1024).decode(FORMAT)
+        print('client', addr, 'says', msg)
+        msg = input('Server response: ')
+        conn.sendall(msg.encode(FORMAT))
+
+except:
+
+    print('error')
