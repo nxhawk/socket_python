@@ -1,12 +1,14 @@
 {
-  "Account":[
-    "nhat",
-    "aao",
-    "nguyrn"
-  ],
-  "Pass":[
-    "12345",
-    "123",
-    "admin"
-  ]
+    "Account": [
+        "nhat",
+        "aao",
+        "nguyrn",
+        "admin"
+    ],
+    "Pass": [
+        "12345",
+        "123",
+        "admin",
+        "jkihhh"
+    ]
 }
