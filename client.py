@@ -10,13 +10,22 @@ print('CLIENT SIDE')
 client.connect((HOST, SERVER_PORT))
 print('client address:', client.getsockname())
 
+
 def sendList(client, list):
-  for item in list:
-    client.sendall(item.encode(FORMAT))
-    client.recv(1024)
-  
-  msg = 'end'
-  client.send(msg.encode(FORMAT))
+    for item in list:
+        client.sendall(item.encode(FORMAT))
+        client.recv(1024)
+
+    msg = 'end'
+    client.send(msg.encode(FORMAT))
+
+
+def loginForm(client):
+    username = input('username: ')
+    client.sendall(username.encode(FORMAT))
+    password = input('password: ')
+    client.sendall(password.encode(FORMAT))
+
 
 list = ["hao1", "hao2", "hao3"]
 
@@ -25,9 +34,10 @@ try:
     while msg != 'x':
         msg = input('talk: ')
         client.sendall(msg.encode(FORMAT))
-        if(msg=='list'):
-          sendList(client, list)
-        
+        if(msg == 'list'):
+            sendList(client, list)
+        if(msg == 'login'):
+            loginForm(client)
 except:
     print('error')
 
