@@ -26,13 +26,24 @@ def handleLogin(conn):
         data_list = json.load(f)
         if(username in data_list['Account']):
             index = data_list['Account'].index(username)
-            print('index=', index)
             if(password != data_list['Pass'][index]):
                 print('wrong password')
             else:
                 print('login successfully!!')
         else:
             print('no username')
+
+
+def handleRegister(conn):
+    username = conn.recv(1024).decode(FORMAT)
+    password = conn.recv(1024).decode(FORMAT)
+    with open('data.json', 'r+') as f:
+        data_json = json.load(f)
+        data_json['Account'].append(username)
+        data_json['Pass'].append(password)
+        f.seek(0)
+        json.dump(data_json, f, indent=4)
+        print('Added user')
 
 
 def handleClient(conn, addr):
@@ -49,6 +60,9 @@ def handleClient(conn, addr):
             print('list: ', recieveList(conn))
         if(msg == 'login'):
             handleLogin(conn)
+        if(msg == 'register'):
+            handleRegister(conn)
+
     print('client', addr, 'finished, closed')
     conn.close()
 
