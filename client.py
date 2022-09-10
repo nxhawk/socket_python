@@ -26,6 +26,12 @@ def loginForm(client):
     password = input('password: ')
     client.sendall(password.encode(FORMAT))
 
+def registerForm(client):
+    username = input('username: ')
+    password = input('password: ')
+    client.sendall(username.encode(FORMAT))
+    client.sendall(password.encode(FORMAT))
+
 
 list = ["hao1", "hao2", "hao3"]
 
@@ -38,6 +44,8 @@ try:
             sendList(client, list)
         if(msg == 'login'):
             loginForm(client)
+        if(msg=='register'):
+            registerForm(client)
 except:
     print('error')
 
