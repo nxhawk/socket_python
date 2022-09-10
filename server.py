@@ -1,5 +1,7 @@
 import socket
 import threading
+import json
+# {}[]
 
 
 def recieveList(conn):
@@ -15,6 +17,24 @@ def recieveList(conn):
     return list
 
 
+def handleLogin(conn):
+    username = conn.recv(1024).decode(FORMAT)
+    print('username: ', username)
+    password = conn.recv(1024).decode(FORMAT)
+    print('password: ', password)
+    with open('data.json', 'r') as f:
+        data_list = json.load(f)
+        if(username in data_list['Account']):
+            index = data_list['Account'].index(username)
+            print('index=', index)
+            if(password != data_list['Pass'][index]):
+                print('wrong password')
+            else:
+                print('login successfully!!')
+        else:
+            print('no username')
+
+
 def handleClient(conn, addr):
     # with every client side
     print('client address: ', addr)
@@ -27,7 +47,8 @@ def handleClient(conn, addr):
         print('client', addr, 'says', msg)
         if(msg == 'list'):
             print('list: ', recieveList(conn))
-
+        if(msg == 'login'):
+            handleLogin(conn)
     print('client', addr, 'finished, closed')
     conn.close()
 
@@ -56,9 +77,8 @@ while nClient < 3:
         thr.daemon = True  # kill thr
         thr.start()
 
-    except:
-
-        print('error')
+    except socket.error as err:
+        print('error', err)
 
     nClient += 1
 
